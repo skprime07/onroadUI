@@ -1,0 +1,718 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ONROAD: Report Road Problems</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* Global Styles */
+        body, html {
+            margin: 0;
+            padding: 0;
+            font-family: 'Roboto', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            box-sizing: border-box;
+            overflow-x: hidden; /* Prevent horizontal overflow */
+        }
+        header {
+            background-color: black; /* Dark Blue-Grey Color */
+        }
+        
+        .section {
+            min-height: 100vh;
+            padding: 80px 40px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            background-color:#37474f;
+        }
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        h1 {
+            font-size: 3.5rem;
+            margin-bottom: 20px;
+        }
+        h2 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+        }
+        p {
+            font-size: 1.2rem;
+            margin-bottom: 15px;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .btn {
+            display: inline-block;
+            background-color: #007bff;
+            color: #fff;
+            padding: 15px 30px;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+            font-size: 1.1rem;
+        }
+        .btn:hover {
+            background-color: #0056b3;
+        }
+        #hero {
+            /* background: #A9B4C2, rgba(0,0,0,0.5), url('/api/placeholder/1920/1080'); */
+            background-color: #37474f;
+            background-size: cover;
+            background-position: center;
+            color: #fff;
+        }
+
+        /* Updated #hero section for background image */
+#hero {
+    position: relative;
+ /* Replace with your image path */
+    background-size: cover;
+    background-position: center;
+    color: #fff;
+    overflow: hidden;
+    background-image: url(bk2.jpg);
+}
+
+#hero::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5); /* Adjust opacity here (0.5 = 50%) */
+    z-index: 1;
+}
+
+#hero .container {
+    position: relative;
+    z-index: 2;
+}
+
+        #report-form {
+            background: linear-gradient(to top, #404040, #a9a9a9, #252424);
+        }
+
+        /* Form Background Image */
+#report-form {
+    background-image: url(bk5.jpg); /* Replace with your image path */
+    background-size: cover;
+    background-position: center;
+    position: relative;
+    padding: 60px 0; /* Add some padding for better spacing */
+}
+
+#report-form form {
+    background: rgba(255, 255, 255, 0.6); /* Semi-transparent white background */
+    padding: 40px;
+    border-radius: 8px;
+    box-shadow: 0 0 20px rgba(0,0,0,0.2);
+    transition: background-color 0.3s, box-shadow 0.3s;
+    position: relative;
+    z-index: 2;
+    width: 90%; /* Adjust width to be responsive */
+    max-width: 600px; /* Maximum width for larger screens */
+    margin: 0 auto; 
+}
+
+#report-form form.transparent {
+    background-color: rgba(255, 255, 255, 0.3); /* More transparent when not hovered */
+    box-shadow: none;
+}
+
+#report-form form:hover {
+    background-color: rgba(255, 255, 255, 0.8); /* Less transparent on hover */
+    box-shadow: 0 0 30px rgba(0,0,0,0.3);
+}
+
+        form {
+            background-color: #fff;
+            padding: 40px;
+            border-radius: 8px;
+            box-shadow: 0 0 20px rgba(0,0,0,0.1);
+            width: 100%;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        /* Updated form styles */
+form {
+    background: linear-gradient(135deg, #f5f5f5, #e1e1e1);
+    padding: 40px;
+    border-radius: 8px;
+    box-shadow: 0 0 20px rgba(0,0,0,0.2);
+    width: 100%;
+    max-width: 600px;
+    margin: 0 auto;
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+form:hover {
+    transform: scale(1.02);
+    box-shadow: 0 0 30px rgba(0,0,0,0.3);
+}
+
+input, textarea {
+    width: calc(100% - 30px);
+    padding: 15px;
+    margin-bottom: 20px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 1rem;
+    box-sizing: border-box;
+    transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+input:focus, textarea:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 8px rgba(0, 123, 255, 0.2);
+}
+
+button {
+    background-color: #007bff;
+    color: #fff;
+    padding: 15px 30px;
+    text-decoration: none;
+    border-radius: 5px;
+    border: none;
+    transition: background-color 0.3s, transform 0.3s;
+    font-size: 1.1rem;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #0056b3;
+    transform: scale(1.05);
+
+}
+
+button:active {
+    transform: scale(0.98);
+    
+}
+
+        input, textarea {
+            width: 100%;
+            padding: 15px;
+            margin-bottom: 20px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 1rem;
+        }
+        #map {
+            width: 100%;
+            height: 600px;
+            margin-top: 40px;
+        }
+        .feature {
+            background-color:  #37474f;
+            color: white;
+            padding: 40px;
+            border-radius: 8px;
+            box-shadow: 0 0 20px rgba(0,0,0,0.1);
+            margin-bottom: 40px;
+        }
+        #features {
+            background-color:#fff;
+        }
+
+/* Updated #map-section for background image */
+#map-section {
+    position: relative;
+    background-image: url(map.png); /* Replace with your image path */
+    background-size: cover;
+    background-position: center;
+    color: #fff; /* Ensure text is visible */
+    padding: 60px 20px; /* Adjust padding as needed */
+    overflow: hidden;
+}
+
+#map-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.4); /* Adjust opacity here (0.4 = 40%) */
+    z-index: 1;
+}
+
+#map-section .container {
+    position: relative;
+    z-index: 2;
+}
+
+
+        /* Updated #features section for background image */
+#features {
+    position: relative;
+    background-image: url(bk3.jpg); /* Replace with your image path */
+    background-size: cover;
+    background-position: center;
+    color: #fff; /* Ensure text is visible */
+    padding: 60px 20px; /* Adjust padding as needed */
+    overflow: hidden;
+}
+
+#features::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.4); /* Adjust opacity here (0.4 = 40%) */
+    z-index: 1;
+}
+
+#features .container {
+    position: relative;
+    z-index: 2;
+}
+
+        #app-info {
+            background-color: #37474f;
+        }
+
+/* Updated #app-info section for background image */
+#app-info {
+    position: relative;
+    background-image: url(apd.jpg); /* Replace with your image path */
+    background-size: cover;
+    background-position: center;
+    color: #fff; /* Ensure text is visible */
+    padding: 60px 20px; /* Adjust padding as needed */
+    overflow: hidden;
+}
+
+#app-info::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.4); /* Adjust opacity here (0.4 = 40%) */
+    z-index: 1;
+}
+
+#app-info .container {
+    position: relative;
+    z-index: 2;
+}
+
+ /* How It Works Section */
+#how-it-works {
+    background-color: #fff;
+    padding: 60px 20px;
+}
+
+/* Updated #how-it-works section for background image */
+#how-it-works {
+    position: relative;
+    background-image: url(usr.jpg); 
+    background-size: cover;
+    background-position: center;
+    color: #000000; 
+    padding: 60px 20px;
+    overflow: hidden;
+}
+
+#how-it-works::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.4);
+    z-index: 1;
+}
+
+#how-it-works .container {
+    position: relative;
+    z-index: 2;
+}
+
+
+#how-it-works h2 {
+    font-size: 2.5rem;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+#how-it-works ol {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#how-it-works li {
+    background: linear-gradient(135deg, #f5f5f5, #e1e1e1);
+    margin: 10px 0;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 15px rgba(0,0,0,0.1);
+    width: 90%;
+    max-width: 600px;
+    text-align: center;
+    font-size: 1.2rem;
+    transform: translateY(50px);
+    opacity: 0;
+    transition: transform 0.5s ease, opacity 0.5s ease;
+}
+
+#how-it-works li:nth-child(odd) {
+    background: linear-gradient(135deg, #e1e1e1, #f5f5f5);
+}
+
+#how-it-works li.visible {
+    transform: translateY(0);
+    opacity: 1;
+}
+
+        #testimonials {
+            background-color:#37474f;
+        }
+        .testimonial {
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 0 20px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+            text-align: left;
+        }
+
+        /* Updated #testimonials section for background image */
+#testimonials {
+    position: relative;
+    background-image: url(usern.jpg); /* Replace with your image path */
+    background-size: cover;
+    background-position: center;
+    color: black; /* Ensure text is visible */
+    padding: 60px 20px; /* Adjust padding as needed */
+    overflow: hidden;
+}
+
+#testimonials::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5); /* Adjust opacity here (0.5 = 50%) */
+    z-index: 1;
+}
+
+#testimonials .container {
+    position: relative;
+    z-index: 2;
+}
+
+        #contact {
+            background-color: #fff;
+            color: black;
+        }
+
+        #contact {
+            position: relative;
+            background-image: url(contact1.webp); /* Replace with your image path */
+            background-size: cover;
+            background-position: center;
+            color: #fff; /* Ensure text is visible */
+            padding: 60px 20px; /* Adjust padding as needed */
+            overflow: hidden;
+        }
+
+        #contact::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.4); /* Adjust opacity here (0.4 = 40%) */
+            z-index: 1;
+        }
+
+        #contact .container {
+            position: relative;
+            z-index: 2;
+            text-align: center; /* Center text for better appearance */
+        }
+        
+        footer {
+            background-color: #263238;
+            color: #fff;
+            text-align: center;
+            padding: 20px;
+        }
+        /* Responsive Styles */
+      
+            .btn {
+                font-size: 1rem;
+                padding: 12px 24px;
+            }
+            #map {
+                height: 400px;
+            }
+        
+        @media (max-width: 576px) {
+            h1 {
+                font-size: 1.5rem;
+            }
+            h2 {
+                font-size: 1.5rem;
+            }
+            p {
+                font-size: 0.8rem;
+            }
+            .btn {
+                font-size: 0.8rem;
+                padding: 8px 16px;
+            }
+            #map {
+                height: 200px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav class="navbar">
+            <div class="navbar-container">
+                <a href="#" class="logo">
+                    <img src="https://github.com/skprime07/ONROAD/blob/main/log2.png?raw=true" alt="Onroad Logo">
+                    <span>ONROAD</span>
+                </a>
+         
+
+            <div class="navbar-toggle" id="navbar-toggle">
+                    <div class="bar"></div>
+                    <div class="bar"></div>
+                    <div class="bar"></div>
+                </div>
+                <ul class="navbar-menu active" id="navbar-menu">
+                    <li><a href="#">Home</a></li>
+                    <li><a href="#">Report</a></li>
+                    <li><a href="#">Features</a></li>
+                    <li><a href="#">App Info</a></li>
+                    <li><a href="#">Contact</a></li>
+                    <li><a href="#" class="navbar-icon"><i class="fa-regular fa-user"></i></a></li>
+                </ul>
+            </div>
+        </nav>
+        <script src="script1.js"></script>
+    </header>
+
+    <section id="hero" class="section">
+        <div class="container">
+            <h1 data-aos="fade-down" style="color: white;">Welcome to ONROAD</h1>
+            <p data-aos="fade-up" style="color: white;">Help us make our roads safer by reporting problems in your area. Together, we can improve our infrastructure and ensure smoother, safer journeys for everyone.</p>
+            <a href="#report-form" class="btn" data-aos="zoom-in">Report a Problem</a>
+        </div>
+    </section>
+
+    <section id="report-form" class="section">
+        <div class="container">
+            <h2 data-aos="fade-down" style="color: white;">Report a Road Problem</h2>
+            <div id="report-form-background">
+                <form data-aos="fade-up">
+                    <input type="text" placeholder="Your Name" required>
+                    <input type="email" placeholder="Your Email" required>
+                    <input type="text" placeholder="Location of the Problem" required>
+                    <textarea placeholder="Describe the problem in detail" rows="4" required></textarea>
+                    <input type="file" accept="image/*" required>
+                    <button type="submit" class="btn">Submit Report</button>
+                </form>
+            </div>
+        </div>
+    </section>
+    
+    <section id="map-section" class="section">
+        <div class="container">
+            <h2 data-aos="fade-down" style="color: white;">View Reported Problems</h2>
+            <iframe 
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3561.820747489452!2d75.8199374748905!3d26.7819832656974!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x396dc9763e6030f1%3A0x4137675e5cf54360!2sJECRC%20Foundation!5e0!3m2!1sen!2sin!4v1726419219428!5m2!1sen!2sin" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade">
+            </iframe>
+        </div>
+    </section>
+
+    <section id="features" class="section">
+        <div class="container">
+            <h2 data-aos="fade-down">Why Use ONROAD?</h2>
+            <div class="feature" data-aos="fade-right">
+                <h3>Easy Reporting</h3>
+                <p>Report road problems in just a few clicks. Upload photos and provide details to help authorities address issues quickly and efficiently.</p>
+            </div>
+            <div class="feature" data-aos="fade-left">
+                <h3>Real-time Updates</h3>
+                <p>Get notifications on the status of your reported problems. See when issues are acknowledged, scheduled for repair, and resolved.</p>
+            </div>
+            <div class="feature" data-aos="fade-right">
+                <h3>Community Driven</h3>
+                <p>Join a community of active citizens working together to improve road conditions and safety in your area. Your reports make a real difference.</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="app-info" class="section">
+        <div class="container">
+            <h2 data-aos="fade-down" style="color: white;">Download Our Mobile App</h2>
+            <p data-aos="fade-up" style="color: white;">Get the ONROAD app for easy on-the-go reporting. Available for iOS and Android devices. Report issues anytime, anywhere!</p>
+            <div data-aos="zoom-in">
+                <a href="#" class="btn">Download for iOS</a>
+                <a href="#" class="btn">Download for Android</a>
+            </div>
+        </div>
+    </section>
+
+    <section id="how-it-works" class="section">
+        <div class="container">
+            <h2 data-aos="fade-down">How It Works</h2>
+            <ol data-aos="fade-up">
+                <li>Report a road problem using our website or mobile app</li>
+                <li>Include a photo and detailed description of the issue</li>
+                <li>Our team verifies the report and forwards it to the relevant authorities</li>
+                <li>Track the status of your report in real-time</li>
+                <li>Receive updates when the problem is addressed and resolved</li>
+            </ol>
+        </div>
+    </section>
+
+    <section id="testimonials" class="section">
+        <div class="container">
+            <h2 data-aos="fade-down" style="color: white;">What Our Users Say</h2>
+            <div class="testimonial" data-aos="fade-right">
+                <p>"Thanks to ONROAD, the pothole on my street was fixed within a week of reporting! I'm impressed by how quickly the local authorities responded."</p>
+                <p>- Sarah J., Daily Commuter</p>
+            </div>
+            <div class="testimonial" data-aos="fade-left">
+                <p>"The app is so easy to use. I love being able to contribute to making our roads safer. It's great to see the community coming together to improve our infrastructure."</p>
+                <p>- Mike T., Cycling Enthusiast</p>
+            </div>
+        </div>
+    </section>
+    
+
+    <section id="contact" class="section">
+        <div class="container">
+            <h2 data-aos="fade-down">Contact Us</h2>
+            <p data-aos="fade-up">Have questions or suggestions? We'd love to hear from you! Our team is always ready to assist you and improve our service.</p>
+            <p data-aos="fade-up">Email: info@ONROAD.com</p>
+            <p data-aos="fade-up">Phone: (555) 123-4567</p>
+            <p data-aos="fade-up">Address: 123 Fix-It Street, Repair City, RC 12345</p>
+        </div>
+    </section>
+
+    <footer>
+        <p>&copy; 2024 ONROAD. All rights reserved. | Privacy Policy | Terms of Service</p>
+    </footer>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+    <script>
+        AOS.init({
+            duration: 1000,
+            once: false,
+        });
+
+        // Simulated Google Maps embed (replace with actual Google Maps embed code)
+        function initMap() {
+            const mapDiv = document.getElementById('map');
+            mapDiv.innerHTML = '<img src="/api/placeholder/1400/600" alt="Map Placeholder" style="width:100%;height:100%;object-fit:cover;">';
+        }
+        window.onload = initMap;
+
+        // Mobile menu toggle
+        document.addEventListener('DOMContentLoaded', function () {
+            const navbarNav = document.querySelector('.navbar-nav');
+            const navbarToggle = document.querySelector('.navbar-toggle');
+            
+            navbarToggle.addEventListener('click', function () {
+                navbarNav.classList.toggle('active');
+            });
+        });
+
+        document.addEventListener('DOMContentLoaded', function () {
+    // Smooth scroll for anchor links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+            e.preventDefault();
+            document.querySelector(this.getAttribute('href')).scrollIntoView({
+                behavior: 'smooth'
+            });
+        });
+    });
+
+    // Form field animations on focus
+    const formFields = document.querySelectorAll('input, textarea');
+    formFields.forEach(field => {
+        field.addEventListener('focus', function () {
+            this.style.borderColor = '#007bff';
+            this.style.boxShadow = '0 0 8px rgba(0, 123, 255, 0.2)';
+        });
+
+        field.addEventListener('blur', function () {
+            this.style.borderColor = '#ccc';
+            this.style.boxShadow = 'none';
+        });
+    });
+});
+
+
+document.addEventListener('DOMContentLoaded', function () {
+    const observer = new IntersectionObserver(entries => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('visible');
+            }
+        });
+    });
+
+    document.querySelectorAll('#how-it-works li').forEach(item => {
+        observer.observe(item);
+    });
+});
+
+
+document.addEventListener('DOMContentLoaded', function () {
+    const formContainer = document.querySelector('#report-form form');
+
+    formContainer.addEventListener('mouseover', function () {
+        formContainer.classList.remove('transparent');
+    });
+
+    formContainer.addEventListener('mouseout', function () {
+        formContainer.classList.add('transparent');
+    });
+});
+
+document.addEventListener('DOMContentLoaded', function() {
+    const toggleButton = document.getElementById('navbar-toggle');
+    const menu = document.getElementById('navbar-menu');
+
+    toggleButton.addEventListener('click', function() {
+        menu.classList.toggle('active');
+    });
+    console.log('Toggle button clicked');
+});
+
+    </script>
+</body>
+</html>
